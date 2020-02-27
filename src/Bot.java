@@ -5,22 +5,27 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 
 public class Bot extends TelegramLongPollingBot {
+
+    private long chat_id;
+
     @Override
     public void onUpdateReceived(Update update) {
+        update.getUpdateId();
         SendMessage sendMessage = new SendMessage().setChatId(update.getMessage().getChatId());//class for send message
-        if(update.getMessage().getText().equals("hello")){
-            sendMessage.setText("hi");
-            try{
-                execute(sendMessage);
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
-            }
-        } else sendMessage.setText(update.getMessage().getText());
+        chat_id = update.getMessage().getChatId();
+        sendMessage.setText(input(update.getMessage().getText()));
         try{
             execute(sendMessage);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
+    }
+
+    private String input(String msg) {
+        if(msg.contains("hi") || msg.contains("hello")){
+            return "hi guy";
+        }
+        return msg;
     }
 
     @Override
