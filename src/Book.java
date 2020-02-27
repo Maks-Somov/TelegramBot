@@ -8,7 +8,7 @@ import java.io.IOException;
 public class Book {
     private Document document;
 
-    public Book(Document document) {
+    public Book() {
         connect();
     }
 
