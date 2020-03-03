@@ -14,13 +14,15 @@ public class Bot extends TelegramLongPollingBot {
 
     Book book = new Book();
     private long chat_id;
+    private String text;
 
     @Override
     public void onUpdateReceived(Update update) {
         update.getUpdateId();
         SendMessage sendMessage = new SendMessage().setChatId(update.getMessage().getChatId());//class for send message
         chat_id = update.getMessage().getChatId();
-        sendMessage.setText(input(update.getMessage().getText()));
+        text = update.getMessage().getText();
+        sendMessage.setText(input(text));
         try{
             execute(sendMessage);
         } catch (TelegramApiException e) {
@@ -29,7 +31,7 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     private String input(String msg) {
-        if(msg.contains("hi") || msg.contains("hello")){
+        if(msg.contains("hi") || msg.contains("hello") || msg.contains("Hi")){
             return "hi guy";
         }
         if(msg.contains("Информация о книге")){

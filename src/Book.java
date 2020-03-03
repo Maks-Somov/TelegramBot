@@ -12,7 +12,7 @@ public class Book {
         connect();
     }
 
-    private void connect() {
+    private void connect() {// функция подключения к странице
         try {
             document = Jsoup.connect("https://www.surgebook.com/MAriSTix/book/mir-fantaziy").get();
         } catch (IOException e) {
@@ -43,13 +43,10 @@ public class Book {
         Elements elements = document.getElementsByClass("comment_mv1_item");
 
         String comment = elements.text();
-        //чистим от ответить
+        //отчисткаа от лишнего
         comment = comment.replaceAll("Ответить", "\n\n");
-        //чистим от нравится
         comment = comment.replaceAll("Нравится", "");
-        //чистим от дат
         comment = comment.replaceAll("\\d{4}-\\d{2}-\\d{2}", "");
-        //чистим от времени
         comment = comment.replaceAll("\\d{4}-\\d{2}-\\d{2}", "");
         return comment;
     }
