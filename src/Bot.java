@@ -48,7 +48,7 @@ public class Bot extends TelegramLongPollingBot {
             // качаем изображение в буфер
             File outputfile = new File("image.jpg");
             //создаем новый файл в который поместим
-            //скаченое изображение
+            //скачанное изображение
             ImageIO.write(img, "jpg", outputfile);
             //преобразовуем наше буферное изображение
             //в новый файл
