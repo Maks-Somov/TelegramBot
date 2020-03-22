@@ -55,7 +55,7 @@ public class Autor {
         Elements values = document.getElementsByClass("info-stats-num");
 
         for (int i = 0; i < names.size(); i++){
-            info+=names.get(i).text()+": "+values.get(i).text()+"\n";
+            info += names.get(i).text()+": " + values.get(i).text()+"\n";
         }
         info+=getBooks();
         return info;
@@ -98,8 +98,8 @@ public class Autor {
 
             Elements elements = booksDoc.getElementsByClass("font-size-14 color-white m1-5");
             valuesLikesBooks+= Integer.valueOf(elements.get(0).text());
-            valuesViewsBooks+= Integer.valueOf(elements.get(1).text());
-            valuesCommentsBooks+= Integer.valueOf(elements.get(2).text());
+            valuesCommentsBooks+= Integer.valueOf(elements.get(1).text());
+            valuesViewsBooks+= Integer.valueOf(elements.get(2).text());
         }
         return "";
     }

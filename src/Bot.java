@@ -7,7 +7,12 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 
 public class Bot extends TelegramLongPollingBot {
@@ -31,13 +36,18 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     private String input(String msg) {
+        String error = "Неудача, попробуй снова";
         if(msg.contains("hi") || msg.contains("hello") || msg.contains("Hi")){
             return "hi guy";
         }
         if(msg.contains("Информация о книге")){
             return getInfoBook();
         }
-        return msg;
+        if(msg.contains("/person")){
+            msg = msg.replace("/person ","");
+            return getInfoPerson(msg);
+        }
+        return error;
     }
 
     public String getInfoBook(){
@@ -69,6 +79,23 @@ public class Bot extends TelegramLongPollingBot {
 
         return info;
     }
+
+    public String getInfoPerson(String msg){
+        Autor aut = new Autor(msg);
+
+        SendPhoto sendPhotoRequest = new SendPhoto();
+        try(InputStream in = new URL(aut.getImg()).openStream()) {
+            Files.copy(in, Paths.get("D:\\srgBook"));//выгружаем изображение из интернета
+            sendPhotoRequest.setChatId(chat_id);
+            sendPhotoRequest.setPhoto(new File("D:\\srgBook"));
+            execute(sendPhotoRequest);//отправка картинки
+            Files.delete(Paths.get("D:\\srgBook"));
+        } catch (IOException | TelegramApiException e) {
+            e.printStackTrace();
+        }
+        return aut.getInfoPerson();
+    }
+
 
     @Override
     public String getBotUsername() {
